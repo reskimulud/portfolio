@@ -125,6 +125,12 @@ function bodyScrollingToggle() {
             if (e.keyCode == 27) {
                 close();
             }
+            if (e.keyCode == 39) {
+                nextSlide();
+            }
+            if (e.keyCode == 37) {
+                prevSlide();
+            }
             return;
         }
     }
@@ -149,23 +155,29 @@ function bodyScrollingToggle() {
 
 
     // next slide
-    nextBtn.addEventListener('click', () => {
+    function nextSlide() {
         if (slideIndex == screenshots.length - 1) {
             slideIndex = 0;
         } else {
             slideIndex++;
         }
         popupSlideShow()
+    }
+    nextBtn.addEventListener('click', () => {
+        nextSlide();
     });
 
     // prev slide
-    prevBtn.addEventListener('click', () => {
+    function prevSlide() {
         if (slideIndex == 0) {
             slideIndex = screenshots.length - 1;
         } else {
             slideIndex--;
         }
         popupSlideShow()
+    }
+    prevBtn.addEventListener('click', () => {
+        prevSlide();
     });
 
     function popupDetails() {
@@ -199,5 +211,59 @@ function bodyScrollingToggle() {
             projectDetailsContainer.style.maxHeight = projectDetailsContainer.scrollHeight + 'px';
         }
     }
+
+})();
+
+
+//  ====================  TESTIMONIAL SLIDER =================
+
+(() => {
+
+    const sliderContainer = document.querySelector('.testi-slider-container');
+    const slides = sliderContainer.querySelectorAll('.testi-item');
+    const slideWidth = sliderContainer.offsetWidth;
+    const prevBtn = document.querySelector('.testi-slider-nav .prev');
+    const nextBtn = document.querySelector('.testi-slider-nav .next');
+    const activeSlide = sliderContainer.querySelector('.testi-item.active');
+    let slideIndex = Array.from(activeSlide.parentElement.children).indexOf(activeSlide);
+    console.log(slideIndex);
+
+    // set width dari semua slide
+    slides.forEach((slide) => {
+        slide.style.width = slideWidth + 'px';
+    });
+    // set width sliderContainer
+    sliderContainer.style.width = `${slideWidth * slides.length}px`;
+
+    // pindah2 item
+    function slider() {
+        // nonaktif class active
+        sliderContainer.querySelector('.testi-item.active').classList.remove('active');
+
+        // menambahkan class active yang baru
+        slides[slideIndex].classList.add('active');
+
+        sliderContainer.style.marginLeft = `-${slideWidth * slideIndex}px`;
+    }
+
+    nextBtn.addEventListener('click', () => {
+        if (slideIndex === slides.length - 1) {
+            slideIndex = 0;
+        } else {
+            slideIndex++;
+        }
+        slider();
+    });
+    prevBtn.addEventListener('click', () => {
+        if (slideIndex === 0) {
+            slideIndex = slides.length - 1;
+        } else {
+            slideIndex--;
+        }
+        slider();
+    });
+
+    slider();
+
 
 })();
