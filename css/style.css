@@ -13,6 +13,7 @@ GLOBAL STYLE
     --bg-black-900:     #000000;
     --bg-black-100:     #dddddd;
     --bg-black-50:      #eff0f4;
+    --bg-opacity:       rgba(255, 255, 255, .5);
     --text-black-900:   #000000;
     --text-black-700:   #555555;
     --text-black-600:   #666666;
@@ -21,6 +22,22 @@ GLOBAL STYLE
     --outer-shadow-0:   0 0 0 #d0d0d0, 0 0 0 #f8f8f8;
     --inner-shadow: inset 3px 3px 3px #d0d0d0, inset -3px -3px 3px #f8f8f8;
     --inner-shadow-0: inset 0 0 0 #d0d0d0, inset 0 0 0 #f8f8f8;
+}
+
+/* variables for dark mode */
+body.dark {
+    --bg-black-900:     #ffffff;
+    --bg-black-100:     #353535;
+    --bg-black-50:      #2b2c2f;
+    --bg-opacity:       rgba(43, 44, 47, .5);
+    --text-black-900:   #ffffff;
+    --text-black-700:   #ffffff;
+    --text-black-600:   #bbbbbb;
+    --text-black-300:   #bbbbbb;
+    --outer-shadow:     3px 3px 3px #222327, -3px -3px 3px #363636;
+    --outer-shadow-0:   0 0 0 #222327, 0 0 0 #363636;
+    --inner-shadow: inset 3px 3px 3px #222327, inset -3px -3px 3px #363636;
+    --inner-shadow-0: inset 0 0 0 #222327, inset 0 0 0 #363636;
 }
 
 * {
@@ -248,9 +265,21 @@ img {
         transform: translateY(0);
     }
 }
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
 
 .section {
     min-height: 100vh;
+}
+
+.section.hide {
+    display: none;
 }
 
 .section-title {
@@ -368,6 +397,29 @@ NAVIGATION
     overflow-y: auto
 }
 
+.fade-out-effect {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-black-50);
+    z-index: -1;
+    visibility: hidden;
+}
+.fade-out-effect.active {
+    visibility: visible;
+    z-index: 1000;
+    transition: fadeOut .3s ease-out;
+}
+
+.nav-menu.open {
+    visibility: visible;
+    opacity: 1;
+    z-index: 999;
+    transition: all .3s ease-in;
+}
+
 .nav-menu .close-nav-menu {
     height: 40px;
     width: 40px;
@@ -452,6 +504,7 @@ HOME SECTION
 
 .home-section {
     position: relative;
+    padding-top: 80px;
 }
 
 .home-section .full-screen {
@@ -808,6 +861,7 @@ SERVICE SECTION
     display: block;
     margin: 0 auto 30px;
     position: relative;
+    color: var(--text-black-600);
 }
 
 .service-section .service-item-inner .icon::after {

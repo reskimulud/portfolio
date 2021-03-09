@@ -9,7 +9,16 @@
   <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
   <!-- main css -->
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" type="text/css" href="css/skins/color-4.css">
+  <!-- skin color -->
+  <link rel="stylesheet" type="text/css" href="css/skins/color-1.css">
+  <!-- style switcher -->
+  <link rel="stylesheet" type="text/css" href="css/skins/color-1.css" class="alternate-style" title="color-1" disabled>
+  <link rel="stylesheet" type="text/css" href="css/skins/color-2.css" class="alternate-style" title="color-2" disabled>
+  <link rel="stylesheet" type="text/css" href="css/skins/color-3.css" class="alternate-style" title="color-3" disabled>
+  <link rel="stylesheet" type="text/css" href="css/skins/color-4.css" class="alternate-style" title="color-4" disabled>
+  <link rel="stylesheet" type="text/css" href="css/skins/color-5.css" class="alternate-style" title="color-5" disabled>
+
+  <link rel="stylesheet" type="text/css" href="css/style-switcher.css">
 </head>
 
 <body>
@@ -34,21 +43,23 @@
     <div class="close-nav-menu outer-shadow hover-in-shadow">&times;</div>
     <div class="nav-menu-inner">
       <ul>
-        <li><a href="#" class="inner-shadow active">home</a></li>
-        <li><a href="#" class="outer-shadow hover-in-shadow">about</a></li>
-        <li><a href="#" class="outer-shadow hover-in-shadow">services</a></li>
-        <li><a href="#" class="outer-shadow hover-in-shadow">portfolio</a></li>
-        <li><a href="#" class="outer-shadow hover-in-shadow">testimonial</a></li>
-        <li><a href="#" class="outer-shadow hover-in-shadow">contact</a></li>
+        <li><a href="#home" class="link-item inner-shadow active">home</a></li>
+        <li><a href="#about" class="link-item outer-shadow hover-in-shadow">about</a></li>
+        <li><a href="#services" class="link-item outer-shadow hover-in-shadow">services</a></li>
+        <li><a href="#portfolio" class="link-item outer-shadow hover-in-shadow">portfolio</a></li>
+        <li><a href="#testimonial" class="link-item outer-shadow hover-in-shadow">testimonial</a></li>
+        <li><a href="#contact" class="link-item outer-shadow hover-in-shadow">contact</a></li>
       </ul>
     </div>
     <!-- copyright text -->
     <p class="copyright-text">&copy; 2021 Reski Mulud Muchamad</p>
+
   </nav>
+  <div class="fade-out-effect"></div>
   <!-- navigation menu end -->
 
   <!-- home section start -->
-  <section class="section home-section">
+  <section class="section home-section active" id="home">
     <!-- effect wrap start -->
     <div class="effect-wrap">
       <div class="effect effect-1"></div>
@@ -104,7 +115,7 @@
           <p>Hello</p>
           <h2>I'm Reski Mulud Muchamad</h2>
           <h1>Web Developer & Graphic Designer</h1>
-          <a href="#" class="btn-1 outer-shadow hover-in-shadow">More About Me</a>
+          <a href="#about" class="link-item btn-1 outer-shadow hover-in-shadow">More About Me</a>
         </div>
         <div class="home-img">
           <div class="img-box inner-shadow">
@@ -117,7 +128,7 @@
   <!-- home section end -->
 
   <!-- about section start -->
-  <section class="about-section section">
+  <section class="about-section section" id="about">
     <div class="container">
       <div class="row">
         <div class="section-title">
@@ -149,7 +160,7 @@
             officiis placeat quidem eaque!</p>
 
           <a href="cv.pdf" class="btn-1 outer-shadow hover-in-shadow">Download CV</a>
-          <a href="#" class="btn-1 outer-shadow hover-in-shadow">Hire Me</a>
+          <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Hire Me</a>
         </div>
       </div>
       <!-- about tabsstart -->
@@ -324,7 +335,7 @@
   <!-- about section send -->
 
   <!-- service section start -->
-  <section class="service-section section">
+  <section class="service-section section" id="services">
     <div class="container">
       <div class="row">
         <div class="section-title">
@@ -404,7 +415,7 @@
   <!-- service section end -->
 
   <!-- portfolio section start -->
-  <section class="portfolio-section section">
+  <section class="portfolio-section section" id="portfolio">
     <div class="container">
       <div class="row">
         <div class="section-title">
@@ -711,7 +722,7 @@
   <!-- portfolio section end -->
 
   <!-- testimonial section start -->
-  <section class="testimonial-section section">
+  <section class="testimonial-section section" id="testimonial">
     <div class="container">
       <div class="row">
         <div class="section-title">
@@ -771,7 +782,7 @@
   <!-- testimonial section end -->
 
   <!-- contact section start -->
-  <section class="contact-section section">
+  <section class="contact-section section" id="contact">
     <div class="container">
       <div class="row">
         <div class="section-title">
@@ -890,6 +901,26 @@
     </div>
   </div>
   <!-- portfolio popup end -->
+
+  <!-- style switcher start -->
+  <div class="style-switcher outer-shadow">
+    <div class="style-switcher-toggler s-icon outer-shadow hover-in-shadow">
+      <i class="fas fa-cog fa-spin"></i>
+    </div>
+    <div class="day-night s-icon outer-shadow hover-in-shadow">
+      <i class="fas "></i>
+    </div>
+
+    <h4>Themes Colors</h4>
+    <div class="colors">
+      <span class="color-1" onclick="setActiveStyle('color-1')"></span>
+      <span class="color-2" onclick="setActiveStyle('color-2')"></span>
+      <span class="color-3" onclick="setActiveStyle('color-3')"></span>
+      <span class="color-4" onclick="setActiveStyle('color-4')"></span>
+      <span class="color-5" onclick="setActiveStyle('color-5')"></span>
+    </div>
+  </div>
+  <!-- style switcher end -->
 
   <!-- main js -->
   <script src="js/main.js"></script>
