@@ -28,27 +28,7 @@ class Auth extends CI_Controller
             $this->load->view('auth/template/auth_footer');
         } else {
             // jika validasi success
-            
-            $url        = 'https://www.google.com/recaptcha/api/siteverify';
-            $postField  = ['secret' => '6LfIZCcaAAAAAFb1hGt-I1CfgTbB1S3MAVNDA6Zx', 'response' => $this->input->POST('token'), 'remoteip' => $_SERVER['REMOTE_ADDR']];
-
-            $this->load->model('API_model', 'api');
-            $verify_reCAPTCHA = $this->api->post($url, $postField);
-
-            if ($verify_reCAPTCHA['success'] == TRUE && $verify_reCAPTCHA['score'] > 0.5 && $verify_reCAPTCHA['action'] == 'submit' ) {
-
-                $this->_login();
-
-            } else {
-                $this->session->set_flashdata(
-                    'message',
-                    '<div class="alert alert-danger notification" role="alert">
-                        Verifikasi CAPTCHA salah!
-                    </div>'
-                );
-                redirect('auth');
-            }
-
+            $this->_login();
 
         }
     }
@@ -147,70 +127,6 @@ class Auth extends CI_Controller
 
     }
     
-    public function registration($products = NULL) 
-    {
-
-        if ($this->session->userdata('email')) {
-            redirect('user');
-        }
-        
-        // di docs CI, cari form_validation->Rule Reference
-        $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]', [
-            'is_unique'     => 'Username ini tidak tersedia!'
-        ]);
-        $this->form_validation->set_rules('name', 'Name', 'required|trim');
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.email],', [
-            'is_unique'     => 'Email telah terdaftar'
-        ]);
-        $this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[6]|matches[password2]', [
-            'matches'       => 'Pasword tidak sama',
-            'min_length'    => 'Password terlalu pendek'
-        ]);
-        $this->form_validation->set_rules('password2', 'Password', 'required|trim|matches[password1]');
-
-
-        if ( $this->form_validation->run() == false) {
-            
-            $data['title'] = 'User Registration';
-            $this->load->view('auth/template/auth_header', $data);
-            $this->load->view('auth/registration');
-            $this->load->view('auth/template/auth_footer');
-        } else {
-            $data = [
-                'username'          => htmlspecialchars($this->input->POST('username', true)),
-                'name'              => htmlspecialchars($this->input->POST('name', true)),
-                'email'             => htmlspecialchars($this->input->POST('email', true)),
-                'role_id'           => 2,
-                'password'          => password_hash($this->input->POST('password1'), PASSWORD_DEFAULT),
-                'address_id'        => htmlspecialchars($this->input->POST('address', true)),
-                'profession'        => htmlspecialchars($this->input->POST('profession', true)),
-                'is_active'         => 1,
-                'date_registered'   => time()
-            ];
-
-            $products = $this->input->post('products');
-            
-            $this->db->insert('user', $data);
-
-            if ($products) {
-                $this->session->set_flashdata('message', 
-                '<div class="alert alert-success notification" role="alert">
-                    Congratulation! your account has been created. Please Login
-                </div>');
-                redirect('auth/r/' . $products);
-
-            } else {
-
-                $this->session->set_flashdata('message', 
-                '<div class="alert alert-success notification" role="alert">
-                    Congratulation! your account has been created. Please Login
-                </div>');
-                redirect('auth');
-            }
-
-        }
-    }
-
     public function logout() 
     {
         $this->session->unset_userdata('email');

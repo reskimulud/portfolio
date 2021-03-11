@@ -1,39 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<?php 
-
-$webInfo    = web_info();
-
-?>
+<html>
 
 <head>
-    <meta charset="utf-8" />
-    <title><?= ($title) ? $title . ' | ' . $webInfo['name'] : $webInfo['name']; ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= $webInfo['description']; ?>" />
-    <meta name="keywords" content="<?= $webInfo['keyword']; ?>" />
-    <meta content="Themesdesign" name="author" />
-    <!-- favicon -->
-    <link rel="shortcut icon" href="<?= base_url(); ?>favicon.ico">
-    <!-- css -->
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/vendor/signericafat.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/vendor/cerebrisans.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/vendor/simple-line-icons.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/vendor/elegant.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/vendor/linear-icon.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/plugins/nice-select.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/plugins/easyzoom.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/plugins/slick.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/plugins/animate.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/plugins/magnific-popup.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/plugins/jquery-ui.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/frontend/style.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><?= $title; ?> | MankArt</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- <script src="https://www.google.com/recaptcha/api.js"></script> -->
-    <script src="https://www.google.com/recaptcha/api.js?render=6LfIZCcaAAAAAKtNqVjv-LuuQfc8jVCio7GKA0Iu"></script>
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="<?= base_url('assets/'); ?>plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="<?= base_url('assets/'); ?>plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-
-<body data-spy="scroll" data-target="#navbarCollapse">
