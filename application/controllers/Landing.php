@@ -11,6 +11,9 @@ class Landing extends CI_Controller
 
     public function index()
     {
-        $this->load->view('frontend/index');
+        $data['about']      = $this->db->get('about')->row_array();
+        $data['skills']     = $this->db->get('about_skills')->result_array();
+
+        $this->load->view('frontend/index', $data);
     }
 }

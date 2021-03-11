@@ -136,7 +136,7 @@
                 </div>
                 <div class="home-img">
                     <div class="img-box inner-shadow">
-                        <img src="<?= base_url('assets/'); ?>img/about-pic.jpg" class="outer-shadow" alt="">
+                        <img src="<?= base_url('assets/'); ?>img/about-pic.png" class="outer-shadow" alt="">
                     </div>
                 </div>
             </div>
@@ -154,34 +154,30 @@
             </div>
             <div class="row">
                 <div class="about-img">
-                    <div class="img-box inner-shadow"><img src="<?= base_url('assets/'); ?>img/about-pic.jpg" alt=""
+                    <div class="img-box inner-shadow"><img src="<?= base_url('assets/'); ?>img/about-pic.png" alt=""
                             class="outer-shadow"></div>
                     <!-- social links start -->
                     <div class="social-links">
-                        <a href="" class="outer-shadow hover-in-shadow"><i class="fab fa-fw fa-facebook-f"></i></a>
-                        <a href="" class="outer-shadow hover-in-shadow"><i class="fab fa-fw fa-twitter"></i></a>
-                        <a href="" class="outer-shadow hover-in-shadow"><i class="fab fa-fw fa-instagram"></i></a>
-                        <a href="" class="outer-shadow hover-in-shadow"><i class="fab fa-fw fa-linkedin-in"></i></a>
-                        <a href="" class="outer-shadow hover-in-shadow"><i class="fab fa-fw fa-github"></i></a>
+                        <a href="<?= $about['facebook']; ?>" class="outer-shadow hover-in-shadow"><i
+                                class="fab fa-fw fa-facebook-f"></i></a>
+                        <a href="<?= $about['twitter']; ?>" class="outer-shadow hover-in-shadow"><i
+                                class="fab fa-fw fa-twitter"></i></a>
+                        <a href="<?= $about['instagram']; ?>" class="outer-shadow hover-in-shadow"><i
+                                class="fab fa-fw fa-instagram"></i></a>
+                        <a href="<?= $about['linkedin']; ?>" class="outer-shadow hover-in-shadow"><i
+                                class="fab fa-fw fa-linkedin-in"></i></a>
+                        <a href="<?= $about['github']; ?>" class="outer-shadow hover-in-shadow"><i
+                                class="fab fa-fw fa-github"></i></a>
+                        <a href="<?= $about['pinterest']; ?>" class="outer-shadow hover-in-shadow"><i
+                                class="fab fa-fw fa-pinterest"></i></a>
                     </div>
                     <!-- social links end -->
                 </div>
                 <div class="about-info">
-                    <p><span>Hi, I'm Reski Mulud Muchamad</span> Lorem ipsum dolor sit amet consectetur adipisicing
-                        elit. Modi
-                        commodi consequatur incidunt unde error! Repellat harum nobis quam aut. Quis, sint eum sequi
-                        iste ex eaque!
-                        Distinctio tempora, iste assumenda rerum temporibus qui, aliquam quod cupiditate voluptate id
-                        dignissimos
-                        quas ipsam sint at possimus et nostrum! Natus reiciendis illum voluptatum fuga ipsum explicabo,
-                        esse harum
-                        dolorem aperiam molestias, ullam voluptates provident debitis modi veritatis! Possimus, fuga
-                        quos!
-                        Laudantium, beatae? Sed nostrum, </p>
-                    <p>ab vel saepe enim doloribus assumenda! Aspernatur iste unde eius, harum, ea
-                        aliquam cumque molestias cum repellat, repellendus sit commodi! Voluptates enim atque
-                        accusantium voluptatum
-                        officiis placeat quidem eaque!</p>
+                    <?= $about['description']; ?>
+
+                    <p><span>Email</span> : <a href="mailto:<?= $about['email']; ?>"><?= $about['email']; ?></a></p>
+                    <p><span>Phone Number</span> : +62<?= $about['telp']; ?></p>
 
                     <a href="cv.pdf" class="btn-1 outer-shadow hover-in-shadow">Download CV</a>
                     <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Hire Me</a>
@@ -202,54 +198,16 @@
                 <div class="skills tab-content active">
                     <div class="row">
                         <!-- skill start -->
+                        <?php foreach ($skills as$skill) : ?>
                         <div class="skill-item">
-                            <p>Html</p>
+                            <p><?= $skill['skill']; ?></p>
                             <div class="progress inner-shadow">
-                                <div class="progress-bar" style="width: calc(50% - 14px);">
-                                    <span>50%</span>
+                                <div class="progress-bar" style="width: calc(<?= $skill['percentage']; ?>% - 14px);">
+                                    <span><?= $skill['percentage']; ?>%</span>
                                 </div>
                             </div>
                         </div>
-                        <!-- skill end -->
-                        <!-- skill start -->
-                        <div class="skill-item">
-                            <p>JavaScript</p>
-                            <div class="progress inner-shadow">
-                                <div class="progress-bar" style="width: calc(50% - 14px);">
-                                    <span>50%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- skill end -->
-                        <!-- skill start -->
-                        <div class="skill-item">
-                            <p>CSS</p>
-                            <div class="progress inner-shadow">
-                                <div class="progress-bar" style="width: calc(50% - 14px);">
-                                    <span>50%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- skill end -->
-                        <!-- skill start -->
-                        <div class="skill-item">
-                            <p>Bootstrap</p>
-                            <div class="progress inner-shadow">
-                                <div class="progress-bar" style="width: calc(80% - 14px);">
-                                    <span>80%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- skill end -->
-                        <!-- skill start -->
-                        <div class="skill-item">
-                            <p>PHP</p>
-                            <div class="progress inner-shadow">
-                                <div class="progress-bar" style="width: calc(100% - 14px);">
-                                    <span>100%</span>
-                                </div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                         <!-- skill end -->
                     </div>
                 </div>
@@ -838,7 +796,7 @@
                     <div class="contact-item-inner outer-shadow">
                         <i class="fas fa-phone"></i>
                         <span>phone</span>
-                        <p>000 123 987</p>
+                        <p>+62<?= $about['telp']; ?></p>
                     </div>
                 </div>
                 <!-- contact item end -->
@@ -847,7 +805,7 @@
                     <div class="contact-item-inner outer-shadow">
                         <i class="fas fa-envelope"></i>
                         <span>email</span>
-                        <p>reski.mulud@gmail.com</p>
+                        <p><?= $about['email']; ?></p>
                     </div>
                 </div>
                 <!-- contact item end -->
@@ -856,7 +814,7 @@
                     <div class="contact-item-inner outer-shadow">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>address</span>
-                        <p>selajambu, kebonpedes, sukabumi</p>
+                        <p><?= $about['address']; ?></p>
                     </div>
                 </div>
                 <!-- contact item end -->
