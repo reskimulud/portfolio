@@ -46,7 +46,7 @@
                                                 <button href="" class="btn btn-primary" data-toggle="modal"
                                                     data-target="#image" data-popup="tooltip" data-placement="top"
                                                     title="Change Picture"
-                                                    onclick="img(200, 200, 'user/uploadImage', 'user')">
+                                                    onclick="img(200, 200, 'user/uploadImage', '<?= base_url('user'); ?>')">
                                                     <i class="fas fa-fw fa-edit"></i>
                                                 </button>
                                             </div>

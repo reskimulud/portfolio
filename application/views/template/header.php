@@ -35,7 +35,6 @@ foreach ($notifications as $notification) {
     <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/adminlte.min.css">
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= base_url('assets/'); ?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?= base_url('assets/'); ?>css/select2.min.css">
     <link rel="stylesheet"
         href="<?= base_url('assets/'); ?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <!-- Google Font: Source Sans Pro -->

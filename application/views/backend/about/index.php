@@ -37,7 +37,9 @@
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#info" data-toggle="tab">Tentang Saya</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="#skills" data-toggle="tab">Data Skil</a>
+                        <li class="nav-item"><a class="nav-link" href="#skills" data-toggle="tab">Data Skill</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#education" data-toggle="tab">Data Pendidikan</a>
                         </li>
                     </ul>
                 </div>
@@ -56,10 +58,11 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="col">
                                                     <div class="col-1 mb-1">
+                                                        <?php $href = base_url('about') ?>
                                                         <button href="" class="btn btn-primary" data-toggle="modal"
                                                             data-target="#image" data-popup="tooltip"
                                                             data-placement="top" title="Change Picture"
-                                                            onclick="img(500, 500, 'about/aboutPic', 'about')">
+                                                            onclick="img(500, 500, 'about/aboutPic', '<?= $href; ?>')">
                                                             <i class="fas fa-fw fa-edit"></i>
                                                         </button>
                                                     </div>
@@ -229,12 +232,87 @@
                                                             </td>
                                                             <td>
                                                                 <div class="tooltip-demo">
-                                                                    <a href="<?= base_url('menu/editmenu/') ?>"
-                                                                        data-toggle="modal" data-target="#editMenuModal"
+                                                                    <a href="<?= base_url('about/editskill/') ?>"
+                                                                        data-toggle="modal"
+                                                                        data-target="#editSkillModal<?= $skill['id']; ?>"
                                                                         class="badge badge-info" data-popup="tooltip"
                                                                         data-placement="top" title="Edit Data"><i
                                                                             class=" fas fa-fw fa-edit"></i> edit</a>
-                                                                    <a href="<?= base_url('menu/deletemenu/') ?>"
+                                                                    <a href="<?= base_url('about/deleteskill/') . $skill['id'] ?>"
+                                                                        class=" badge badge-secondary fas del-btn"
+                                                                        data-popup="tooltip" data-placement="top"
+                                                                        title="Delete Data"><i
+                                                                            class=" fas fa-fw fa-trash-alt"></i>
+                                                                        delete</a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <?php $i++ ?>
+                                                        <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="education">
+                            <div class="tooltip-demo">
+                                <button class="btn btn-primary mb-4 addmenu" data-toggle="modal"
+                                    data-target="#newEducationModal" data-popup="tooltip" data-placement="top"
+                                    title="Add Data">
+                                    <i class=" fas fa-fw fa-plus-square"></i>
+                                    Tambah Pendidikan
+                                </button>
+                            </div>
+                            <!-- data table -->
+                            <div>
+                                <div>
+                                    <div class="card shadow mb-4">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary"><i class="fa fa-table"></i>
+                                                Data Pendidikan
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive dt-responsive lg-12">
+                                                <table class="table table-hover table-responsive" id="dataTable"
+                                                    width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Degree</th>
+                                                            <th scope="col">Kampus/Sekolah</th>
+                                                            <th scope="col">Waktu</th>
+                                                            <th scope="col">Lulus?</th>
+                                                            <th scope="col">Deskripsi</th>
+                                                            <th scope="col">Aksi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php $i = 1 ?>
+                                                        <?php foreach ($educations as $education) : ?>
+                                                        <tr class="odd gradeX">
+                                                            <th scope="row">1</th>
+                                                            <td><?= $education['degree']; ?></td>
+                                                            <td><?= $education['school']; ?></td>
+                                                            <td><?= date('M, Y', $education['start']) ?> -
+                                                                <?= ($education['is_graduated'] == 1) ? date('M, Y', $education['until']) : 'sekarang'; ?>
+                                                            </td>
+                                                            <td align="center">
+                                                                <i
+                                                                    class="fas fa-fw <?= ($education['is_graduated'] == 1) ? 'text-success fa-check-circle' : 'text-secondary fa-times-circle' ?>"></i>
+                                                            </td>
+                                                            <td><?= $education['description']; ?></td>
+                                                            <td>
+                                                                <div class="tooltip-demo">
+                                                                    <a href="" data-toggle="modal"
+                                                                        data-target="#editEducationModal<?= $education['id']; ?>"
+                                                                        class="badge badge-info" data-popup="tooltip"
+                                                                        data-placement="top" title="Edit Data"><i
+                                                                            class=" fas fa-fw fa-edit"></i> edit</a>
+                                                                    <a href="<?= base_url('about/deleteeducstion/') . $education['id'] ?>"
                                                                         class=" badge badge-secondary fas del-btn"
                                                                         data-popup="tooltip" data-placement="top"
                                                                         title="Delete Data"><i
@@ -332,3 +410,214 @@
     </div>
 </div>
 <!-- add skill modal end -->
+
+<!-- edit skill modal start -->
+<?php foreach ($skills as $skill) : ?>
+<div class="modal fade" id="editSkillModal<?= $skill['id']; ?>" tabindex="-1"
+    aria-labelledby="editSkillModal<?= $skill['id']; ?>Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSkillModal<?= $skill['id']; ?>Label">Tambah Skill</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?= form_open('about/editskill'); ?>
+            <input type="hidden" name="id" value="<?= $skill['id']; ?>">
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" value="<?= $skill['skill']; ?>" id="skill" name="skill"
+                        placeholder="Nama Skill">
+                </div>
+                <div class="form-group">
+                    <label for="percentage">Persentase (%)</label>
+                    <input type="range" name="percentage" value="<?= $skill['percentage']; ?>" min="0" max="100"
+                        class="form-control-range" id="percentage">
+                    <div id="output-percentage"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Ubah Data</button>
+            </div>
+            <?= form_close(); ?>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+<!-- edit skill modal end -->
+
+
+<!-- add education modal start -->
+<div class="modal fade" id="newEducationModal" tabindex="-1" aria-labelledby="newEducationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newEducationModalLabel">Tambah Pendidikan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?= form_open('about/education'); ?>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="degree" name="degree"
+                        placeholder="Nama Gelar/Program Studi/Tingkat">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="school" name="school" placeholder="Nama Kampus/Sekolah">
+                </div>
+                <div class="form-group">
+                    <label for="start-month">Dari</label>
+                    <div class="row">
+                        <div class="col">
+                            <select name="start-month" class="form-control" id="start-month">
+                                <option value="" disabled selected>--masukan bulan--</option>
+                                <option value="" disabled></option>
+
+                                <?php foreach ($months as $month) : ?>
+                                <option value="<?= $month['id']; ?>"><?= $month['month']; ?></option>
+                                <?php endforeach; ?>
+
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" placeholder="Tahun" name="start-year"
+                                id="start-year" maxlength="4">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group until-form" id="until-form" style="display: block;">
+                    <label for="until-month">Sampai</label>
+                    <div class="row">
+                        <div class="col">
+                            <select name="until-month" class="form-control" id="until-month">
+                                <option value="" disabled selected>--masukan bulan--</option>
+                                <option value="" disabled></option>
+
+                                <?php foreach ($months as $month) : ?>
+                                <option value="<?= $month['id']; ?>"><?= $month['month']; ?></option>
+                                <?php endforeach; ?>
+
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" placeholder="Tahun" name="until-year"
+                                id="until-year" maxlength="4">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input is_studied" name="is_studied" id="is_studied">
+                    <label class="form-check-label" for="is_studied">Masih berkuliah/belajar disini</label>
+                </div>
+                <input type="hidden" name="is_graduated" class="is_graduated" id="is_graduated" value="1">
+                <div class="form-group">
+                    <textarea name="description" id="description" class="form-control"
+                        placeholder="Deskripsi"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Tambah Data</button>
+            </div>
+            <?= form_close(); ?>
+        </div>
+    </div>
+</div>
+<!-- add education modal end -->
+
+<?php foreach ($educations as $education) : ?>
+<!-- edit education modal start -->
+<div class="modal fade" id="editEducationModal<?= $education['id']; ?>" tabindex="-1"
+    aria-labelledby="editEducationModal<?= $education['id']; ?>Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEducationModal<?= $education['id']; ?>Label">Ubah data Pendidikan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?= form_open('about/editeducation'); ?>
+            <input type="hidden" name="id" value="<?= $education['id']; ?>">
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="degree" name="degree"
+                        placeholder="Nama Gelar/Program Studi/Tingkat" value="<?= $education['degree']; ?>">
+                </div>
+                <div class="form-group">
+                    <input type="text" value="<?= $education['school']; ?>" class="form-control" id="school"
+                        name="school" placeholder="Nama Kampus/Sekolah">
+                </div>
+                <div class="form-group">
+                    <label for="start-month">Dari</label>
+                    <div class="row">
+                        <div class="col">
+                            <select name="start-month" class="form-control" id="start-month">
+                                <option value="" disabled selected>--masukan bulan--</option>
+                                <option value="" disabled></option>
+
+                                <?php foreach ($months as $month) : ?>
+                                <option <?= ($month['id'] == date('m', $education['start'])) ? 'selected' : ''; ?>
+                                    value="<?= $month['id']; ?>"><?= $month['month']; ?></option>
+                                <?php endforeach; ?>
+
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="number" value="<?= date('Y', $education['start']); ?>" class="form-control"
+                                placeholder="Tahun" name="start-year" id="start-year" maxlength="4">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group until-form" id="until-form<?= $education['id']; ?>"
+                    style="display: <?= ($education['is_graduated'] == 1) ? 'block' : 'none'; ?>;">
+                    <label for="until-month">Sampai</label>
+                    <div class="row">
+                        <div class="col">
+                            <select name="until-month" class="form-control" id="until-month">
+                                <option value="" disabled selected>--masukan bulan--</option>
+                                <option value="" disabled></option>
+
+                                <?php foreach ($months as $month) : ?>
+                                <option
+                                    <?= (!empty($education['until']) && $month['id'] == date('m', $education['until'])) ? 'selected' : ''; ?>
+                                    value="<?= $month['id']; ?>"><?= $month['month']; ?></option>
+                                <?php endforeach; ?>
+
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" placeholder="Tahun" name="until-year"
+                                id="until-year" maxlength="4"
+                                value="<?= (!empty($education['until'])) ? date('Y', $education['until']) : ''; ?>">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input is_studied" name="is_studied"
+                        id="is_studied<?= $education['id']; ?>"
+                        <?= ($education['is_graduated'] == 1) ? '' : 'checked' ; ?>>
+                    <label class="form-check-label" for="is_studied<?= $education['id']; ?>">Masih berkuliah/belajar
+                        disini</label>
+                </div>
+                <input type="hidden" name="is_graduated" class="is_graduated" id="is_graduated<?= $education['id']; ?>"
+                    value="<?= $education['is_graduated']; ?>">
+                <div class="form-group">
+                    <textarea name="description" id="description" class="form-control"
+                        placeholder="Deskripsi"><?= $education['description']; ?></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Ubah Data</button>
+            </div>
+            <?= form_close(); ?>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
+<!-- edit education modal end -->

@@ -1,10 +1,22 @@
+<?php 
+
+$webInfo        = web_info();
+$notifications  = $this->database->adminNotification();
+$count = 0;
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Personal Portfolio Website</title>
+    <title><?= $webInfo['name']; ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="description" content="<?= $webInfo['description']; ?>" />
+    <meta name="keywords" content="<?= $webInfo['keyword']; ?>" />
+
+    <link rel="shortcut icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
     <!-- font awesome -->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>css/font-awesome.css">
     <!-- main css -->
@@ -69,7 +81,7 @@
             </ul>
         </div>
         <!-- copyright text -->
-        <p class="copyright-text">&copy; 2021 Reski Mulud Muchamad</p>
+        <p class="copyright-text">&copy; 2021 <?= $about['name']; ?></p>
 
     </nav>
     <div class="fade-out-effect"></div>
@@ -130,7 +142,7 @@
             <div class="row full-screen align-items-center">
                 <div class="home-text">
                     <p>Hello</p>
-                    <h2>I'm Reski Mulud Muchamad</h2>
+                    <h2>I'm <?= $about['name']; ?></h2>
                     <h1>Web Developer & Graphic Designer</h1>
                     <a href="#about" class="link-item btn-1 outer-shadow hover-in-shadow">More About Me</a>
                 </div>
@@ -273,43 +285,18 @@
                         <div class="timeline">
                             <div class="row">
                                 <!-- timelime item start -->
+                                <?php foreach ($educations as $education) : ?>
                                 <div class="timeline-item">
                                     <div class="timeline-item-inner outer-shadow">
                                         <i class="fas fa-graduation-cap icon"></i>
-                                        <span>Sep, 2018 - present</span>
-                                        <h3>fullstack developer</h3>
-                                        <h4>Company name, Indonesia</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus eaque qui
-                                            impedit consectetur,
-                                            similique accusantium consequatur ducimus cum quam corporis?</p>
+                                        <span><?= date('M, Y', $education['start']) ?> -
+                                            <?= ($education['is_graduated'] == 1) ? date('M, Y', $education['until']) : 'present'; ?></span>
+                                        <h3><?= $education['degree']; ?></h3>
+                                        <h4><?= $education['school']; ?></h4>
+                                        <p><?= $education['description']; ?></p>
                                     </div>
                                 </div>
-                                <!-- timelime item end -->
-                                <!-- timelime item start -->
-                                <div class="timeline-item">
-                                    <div class="timeline-item-inner outer-shadow">
-                                        <i class="fas fa-graduation-cap icon"></i>
-                                        <span>Sep, 2018 - present</span>
-                                        <h3>fullstack developer</h3>
-                                        <h4>Company name, Indonesia</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus eaque qui
-                                            impedit consectetur,
-                                            similique accusantium consequatur ducimus cum quam corporis?</p>
-                                    </div>
-                                </div>
-                                <!-- timelime item end -->
-                                <!-- timelime item start -->
-                                <div class="timeline-item">
-                                    <div class="timeline-item-inner outer-shadow">
-                                        <i class="fas fa-graduation-cap icon"></i>
-                                        <span>Sep, 2018 - present</span>
-                                        <h3>fullstack developer</h3>
-                                        <h4>Company name, Indonesia</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus eaque qui
-                                            impedit consectetur,
-                                            similique accusantium consequatur ducimus cum quam corporis?</p>
-                                    </div>
-                                </div>
+                                <?php endforeach; ?>
                                 <!-- timelime item end -->
                             </div>
                         </div>

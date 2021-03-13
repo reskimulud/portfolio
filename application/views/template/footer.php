@@ -1,3 +1,10 @@
+<?php 
+
+$webInfo        = web_info();
+$notifications  = $this->database->adminNotification();
+$count = 0;
+
+?>
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -26,8 +33,8 @@
 
 <!-- Main Footer -->
 <footer class="main-footer">
-    <strong>Copyright &copy; <?= (date('Y') == '2020') ? '2020' : '2020 - ' . date('Y'); ?> HomeLib | Template by. <a
-            href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; <?= (date('Y') == '2020') ? '2020' : '2020 - ' . date('Y'); ?> <?= $webInfo['name']; ?> |
+        Template by. <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 3.0.5
@@ -57,12 +64,6 @@
 <script src="<?= base_url('assets/'); ?>plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <!-- ChartJS -->
 <script src="<?= base_url('assets/'); ?>plugins/chart.js/Chart.min.js"></script>
-
-<!-- PAGE SCRIPTS -->
-<script src="<?= base_url('assets/'); ?>js/pages/dashboard2.js"></script>
-
-<script src="<?= base_url('assets/'); ?>js/select2.min.js"></script>
-
 
 <!-- Croppie Image Crop tool -->
 <script src="<?= base_url('assets/'); ?>plugins/croppie/croppie.min.js"></script>
@@ -95,6 +96,33 @@ $('#has-sub-menu').on('click', function() {
         $('.menu-url').show();
     }
 });
+
+// is studied
+$('#is_studied').on('click', () => {
+    if ($('#is_studied').is(':checked')) {
+        $('#until-form').hide();
+        $('#is_graduated').val('0');
+    } else {
+        $('#until-form').show();
+        $('#is_graduated').val('1');
+    }
+});
+
+<?php if (isset($educations)) : ?>
+
+<?php foreach ($educations as $education) : ?>
+$('#is_studied<?= $education['id']; ?>').on('click', () => {
+    if ($('#is_studied<?= $education['id']; ?>').is(':checked')) {
+        $('#until-form<?= $education['id']; ?>').hide();
+        $('#is_graduated<?= $education['id']; ?>').val('0');
+    } else {
+        $('#until-form<?= $education['id']; ?>').show();
+        $('#is_graduated<?= $education['id']; ?>').val('1');
+    }
+});
+<?php endforeach; ?>
+
+<?php endif; ?>
 
 <?php if ($this->uri->segment(1) != 'admin' || $this->uri->segment(2) == 'detail_invoice') : ?>
 $(function() {
@@ -184,34 +212,20 @@ function img(width, height, location, href) {
                     success: function(data) {
                         // html = '<img src="' + resp + '" />';
                         // $("#upload-demo-i").html(html);
-                        location.href("<?= base_url(); ?>" + href);
+                        // location.replace(href);
+                        replace(href);
+
                     }
                 });
             });
         $(".save").show();
-        location.href("<?= base_url(); ?>" + href);
     });
 }
 
-$(document).ready(function() {
-    $('.select-search').select2();
-});
+function replace(href) {
+    location.replace(href);
+}
 </script>
-
-<!-- 
-<script src="<?= base_url('assets/'); ?>js/ckeditor.js"></script>
-<script src="<?= base_url('assets/'); ?>js/config.js"></script>
-<script>
-// ckeditor
-window.onload(() => {
-
-    CKEDITOR.replace('description-ckeditor');
-
-    //     editor.disableAutoInline = true;
-    //     editor.inline('description');
-
-})
-</script> -->
 
 </body>
 
