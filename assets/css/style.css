@@ -308,6 +308,11 @@ img {
     color: var(--skin-color);
 }
 
+.data-not-yet {
+    margin: 12px auto;
+    color: var(--text-black-600);
+}
+
 /* ==============
 PRELOADER
 ============= */
@@ -776,6 +781,21 @@ ABOUT SECTION
     margin-top: 10px;
 }
 
+.about-section .skills .row,
+.about-section .skills .category-divider {
+    margin-bottom: 40px;
+}
+
+.about-section .skills .category-divider h1,
+.about-section .skills .category-divider hr {
+    margin: 0 10px;
+}
+
+.about-section .skills .category-divider h1 {
+    margin: 10px;
+    color: var(--text-black-600);
+}
+
 .about-section .experience,
 .about-section .education {
     padding-bottom: 80px;
@@ -884,6 +904,15 @@ ABOUT SECTION
     color: var(--text-black-600);
     line-height: 26px;
     margin: 15px 0 0;
+}
+
+.about-section .timeline .timeline-item-inner ol,
+.about-section .timeline .timeline-item-inner ul {
+    font-size: 16px;
+    color: var(--text-black-600);
+    margin: 15px 0 0;
+    text-align: left !important;
+    padding: 0 15px;
 }
 
 

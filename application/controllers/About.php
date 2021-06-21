@@ -6,6 +6,7 @@ class About extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        is_logged_in();
     }
 
     public function index()
@@ -13,11 +14,38 @@ class About extends CI_Controller
         $data['title']      = 'About';
         $data['user']       = $this->database->getUser();
         $data['about']      = $this->db->get('about')->row_array();
-        $data['skills']     = $this->db->get('about_skills')->result_array();
+
+        $query              = "SELECT `about_skills`.*, `about_skills_category`.`category_name`
+                                 FROM `about_skills` JOIN `about_skills_category`
+                                   ON `about_skills`.`category_id` = `about_skills_category`.`id`";
+
+        $data['skills']     = $this->db->query($query)->result_array();
+
+        $this->db->order_by('position', 'ASC');
+        $data['categories'] = $this->db->get('about_skills_category')->result_array();
         $data['months']     = $this->db->get('month')->result_array();
 
         $this->db->order_by('start', 'DESC');
         $data['educations'] = $this->db->get('about_education')->result_array();
+        $this->db->order_by('start', 'DESC');
+        $data['experiences'] = $this->db->get('about_experience')->result_array();
+
+        $this->db->select_max('position');
+        $max_position = $this->db->get('about_skills_category')->result_array();
+        $max_position = $max_position[0]['position'];
+
+        if (is_null($max_position)) {
+            $max_position = 0;
+        }
+        $data['max_position'] = $max_position;
+
+        $data['type']   = [
+            "Full-Time",
+            "Part-Time",
+            "Internship",
+            "Freelance",
+            "Contract"
+        ];
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar', $data);
@@ -112,10 +140,12 @@ class About extends CI_Controller
         } else {
             $skill = $this->input->POST('skill');
             $percentage = $this->input->POST('percentage');
+            $category_id = $this->input->POST('category_id');
 
             $data = [
                 'skill' => $skill,
-                'percentage' => $percentage
+                'percentage' => $percentage,
+                'category_id' => $category_id
             ];
 
             $result = $this->db->insert('about_skills', $data);
@@ -143,6 +173,7 @@ class About extends CI_Controller
 
             $skill = $this->input->POST('skill');
             $percentage = $this->input->POST('percentage');
+            $category_id = $this->input->POST('category_id');
             $id = $this->input->POST('id');
 
             $db = $this->db->get_where('about_skills', ['id' => $id])->row_array();
@@ -150,7 +181,8 @@ class About extends CI_Controller
             if (is_array($db) && !empty($db)) {
                 $data = [
                     'skill' => $skill,
-                    'percentage' => $percentage
+                    'percentage' => $percentage,
+                    'category_id' => $category_id
                 ];
 
                 $result = $this->database->update($data, $id, 'about_skills');
@@ -203,7 +235,233 @@ class About extends CI_Controller
                 } else {
                     $this->session->set_flashdata(
                         'error',
-                        'Data gafal dihapus'
+                        'Data gagal dihapus'
+                    );
+                    redirect('about');
+                }
+            }
+        }
+    }
+
+    public function categoryskill()
+    {
+        $this->form_validation->set_rules('category_name', 'Nama Kategori', 'required');
+        
+        $this->db->select_max('position');
+        $max_position = $this->db->get('about_skills_category')->result_array();
+        $max_position = $max_position[0]['position'];
+
+        if (is_null($max_position)) {
+            $max_position = 0;
+        }
+        
+        if ($this->form_validation->run() == false) {
+            $this->index();
+        } else {
+            $category_name = $this->input->POST('category_name');
+
+            $data = [
+                'category_name' => $category_name,
+                'position' => $max_position + 1
+            ];
+
+            $result = $this->db->insert('about_skills_category', $data);
+
+            if ($result) {
+                $this->session->set_flashdata('message', 'Data berhasil ditambahkan');
+
+                redirect('about');
+            } else {
+                $this->session->set_flashdata('error', 'Data gagal ditambahkan');
+                redirect('about');
+            }
+        }
+    }
+
+    public function editcategoryskill()
+    {
+        $this->form_validation->set_rules('id', 'ID', 'required');
+        $this->form_validation->set_rules('category_name', 'Nama Kategori', 'required');
+        
+        if ($this->form_validation->run() == false) {
+            $this->index();
+        } else {
+
+            $category_name = $this->input->POST('category_name');
+            $id = $this->input->POST('id');
+
+            $db = $this->db->get_where('about_skills_category', ['id' => $id])->row_array();
+
+            if (is_array($db) && !empty($db)) {
+                $data = [
+                    'category_name' => $category_name,
+                ];
+
+                $result = $this->database->update($data, $id, 'about_skills_category');
+
+                if ($result) {
+                    $this->session->set_flashdata(
+                        'message',
+                        'Data diperbarui'
+                    );
+                    redirect('about');
+                } else {
+                    $this->session->set_flashfata(
+                        'error',
+                        'Data gagal diperbarui'
+                    );
+                    redirect('about');
+                }
+            } else {
+                $this->session->set_flashdata(
+                    'error',
+                    'Data tidak ditemuhkan'
+                );
+                redirect('about');
+            }
+
+        }
+    }
+
+    public function editpositioncategoryskill()
+    {
+        $this->form_validation->set_rules('id', 'ID', 'required');
+        $this->form_validation->set_rules('position', 'Posisi Kategori', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->index();
+        } else {
+
+            $this->db->select_max('position');
+            $max_position = $this->db->get('about_skills_category')->result_array();
+            $max_position = $max_position[0]['position'];
+
+            if (is_null($max_position)) {
+                $max_position = 0;
+            }
+
+            $chng_position = $this->input->POST('position');
+            $id = $this->input->POST('id');
+
+            $db = $this->db->get_where('about_skills_category', ['id' => $id])->row_array();
+
+            if (is_array($db) && !empty($db)) {
+
+                $positions = $this->db->get('about_skills_category')->result_array();
+                $temp = $this->db->get_where('about_skills_category', ['id' => $id])->result_array();
+                $temp = $temp[0]['position'];
+                
+                if ($chng_position != $temp) {
+                    foreach ($positions as $position) {
+                        if ($position['position'] >= $chng_position && $position['position'] <= $temp) {
+                            if ($position['id'] == $id) {
+                                $position['position'] = $chng_position;
+                            
+                                $this->db->where('id', $position['id']);
+                                $this->db->update('about_skills_category', ['position' => $position['position']]);
+                            } else {
+                                $position['position'] = $position['position'] + 1;
+                            
+                                $this->db->where('id', $position['id']);
+                                $this->db->update('about_skills_category', ['position' => $position['position']]);
+                            }
+                        } elseif ($position['position'] <= $chng_position && $position['position'] >= $temp) {
+                            if ($position['id'] == $id) {
+                                $temp = $position['position'];
+                                $position['position'] = $chng_position;
+                            
+                                $this->db->where('id', $position['id']);
+                                $this->db->update('about_skills_category', ['position' => $position['position']]);
+                            } else {
+                                $position['position'] = $position['position'] - 1;
+                            
+                                $this->db->where('id', $position['id']);
+                                $this->db->update('about_skills_category', ['position' => $position['position']]);
+                            }
+                        }
+                    }
+
+                    $result = $this->db->affected_rows();
+
+                    if ($result) {
+                        $this->session->set_flashdata(
+                            'message',
+                            'Data diperbarui'
+                        );
+                        redirect('about');
+                    } else {
+                        $this->session->set_flashdata(
+                            'error',
+                            'Data gagal diperbarui'
+                        );
+                        redirect('about');
+                    }
+
+                } else {
+                    $this->session->set_flashdata(
+                        'error',
+                        'Data gagal diperbarui, posisi masih sama'
+                    );
+                    redirect('about');
+                }
+
+            } else {
+                $this->session->set_flashdata(
+                    'error',
+                    'Data tidak ditemuhkan'
+                );
+                redirect('about');
+            }
+
+        }
+    }
+
+    public function deletecategoryskill($id)
+    {
+        if ($id == "") {
+            $this->session->set_flashdata(
+                'error',
+                'Data tidak ditemukan'
+            );
+            redirect('about');
+        } else {
+            $db = $this->db->get_where('about_skills_category', ['id' => $id])->row_array();
+
+            
+            if (is_array($db) && !empty($db)) {
+                $positions = $this->db->get('about_skills_category')->result_array();
+                $temp = $this->db->get_where('about_skills_category', ['id' => $id])->result_array();
+                $temp = $temp[0]['position'];
+
+                $this->db->select_max('position');
+                $max_position = $this->db->get('about_skills_category')->result_array();
+                $max_position = $max_position[0]['position'];
+
+                if (is_null($max_position)) {
+                    $max_position = 0;
+                }
+
+                $this->db->where('id', $id);
+                $result = $this->db->delete('about_skills_category');
+
+                foreach ($positions as $position)  {
+                    if ($position['position'] > $temp && $position['position'] <= $max_position) {
+                        $position['position'] = $position['position'] - 1;
+                        $this->db->where('id', $position['id']);
+                        $this->db->update('about_skills_category', ['position' => $position['position']]);
+                    }
+                }
+
+                if ($result) {
+                    $this->session->set_flashdata(
+                        'message',
+                        'Data berhasil dihapus'
+                    );
+                    redirect('about');
+                } else {
+                    $this->session->set_flashdata(
+                        'error',
+                        'Data gagal dihapus'
                     );
                     redirect('about');
                 }
@@ -236,12 +494,12 @@ class About extends CI_Controller
                 $description = $this->input->POST('description');
 
                 $data = [
-                    'degree' => $degree,
-                    'school' => $school,
-                    'start' => $start,
-                    'until' => $until,
-                    'is_graduated' => $is_graduated,
-                    'description' => $description
+                    'degree'        => $degree,
+                    'school'        => $school,
+                    'start'         => $start,
+                    'until'         => $until,
+                    'is_graduated'  => $is_graduated,
+                    'description'   => $description
                 ];
 
                 $result = $this->db->insert('about_education', $data);
@@ -333,6 +591,221 @@ class About extends CI_Controller
                     );
                     redirect('about');
                 }
+            }
+
+        }
+    }
+
+    public function deleteeducation($id)
+    {
+        if ($id == '') {
+            $this->session->set_flashdata(
+                'error',
+                'Data tidak ditemukan'
+            );
+            redirect('about');
+        } else {
+
+            $db = $this->db->get_where('about_education', ['id' => $id])->row_array();
+
+            if (is_array($db) && !empty($db)) {
+                $this->db->where('id', $id);
+                $result = $this->db->delete('about_education');
+
+                if ($result) {
+                    $this->session->set_flashdata(
+                        'message',
+                        'Data berhasil dihapus'
+                    );
+                    redirect('about');
+                } else {
+                    $this->session->set_flashdata(
+                        'error',
+                        'Data gagal dihapus'
+                    );
+                    redirect('about');
+                }
+            } else {
+                $this->session->set_flashdata(
+                    'error',
+                    'Data tidak ditemukan'
+                );
+                redirect('about');
+            }
+
+        }
+    }
+
+    public function experience()
+    {
+        $this->form_validation->set_rules('job_title', 'Nama Pekerjaan', 'required');
+        $this->form_validation->set_rules('company_name', 'Nama Perusahaan', 'required');
+        $this->form_validation->set_rules('start-month', 'Sejak mulai studi', 'required');
+        $this->form_validation->set_rules('start-year', 'Sejak mulai studi', 'required');
+        $this->form_validation->set_rules('is_resigned', 'Tidak bekerja disini?', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->about();
+        } else {
+            if ($this->input->POST('is_resigned') <= 1) {
+                $job_title      = $this->input->POST('job_title');
+                $company_name   = $this->input->POST('company_name');
+                $type           = $this->input->POST('type');
+                $start          = strtotime($_POST['start-year'] . '-' . $_POST['start-month'] . '-01');
+                $until          = strtotime($_POST['until-year'] . '-' . $_POST['until-month'] . '-01');
+                $is_resigned    = $this->input->POST('is_resigned');
+                $description    = $this->input->POST('description');
+
+                if ($is_resigned == 0) {
+                    $until = 0;
+                }
+
+                $data = [
+                    'job_title'     => $job_title,
+                    'company_name'  => $company_name,
+                    'type'          => $type,
+                    'start'         => $start,
+                    'until'         => $until,
+                    'is_resigned'   => $is_resigned,
+                    'description'   => $description
+                ];
+
+                $result = $this->db->insert('about_experience', $data);
+
+                if ($result) {
+                    $this->session->set_flashdata(
+                        'message',
+                        'Data berhasil ditambahkan'
+                    );
+                    redirect('about');
+                } else {
+                    $this->session->set_flashdata(
+                        'error',
+                        'Data gagal ditambahkan'
+                    );
+                    redirect('about');
+                }
+            } else {
+                $this->seession->set_flashdata(
+                    'error',
+                    'Data gagal ditambahkan'
+                );
+                redirect('about');
+            }
+        }
+
+    }
+
+    public function editexperience()
+    {
+        $this->form_validation->set_rules('job_title', 'Nama Pekerjaan', 'required');
+        $this->form_validation->set_rules('company_name', 'Nama Perusahaan', 'required');
+        $this->form_validation->set_rules('start-month', 'Sejak mulai studi', 'required');
+        $this->form_validation->set_rules('start-year', 'Sejak mulai studi', 'required');
+        $this->form_validation->set_rules('is_resigned', 'Tidak bekerja disini?', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->about();
+        } else {
+
+            if ($_POST['id'] == '') {
+                $this->session->set_flashdata(
+                    'error',
+                    'Data tidak ditemukan'
+                );
+                redirect('about');
+            } else {
+                $db = $this->db->get_where('about_experience', ['id' => $_POST['id']])->result_array();
+
+                if (is_array($db) && !empty($db)) {
+                    $id             = $this->input->POST('id');
+                    $job_title      = $this->input->POST('job_title');
+                    $company_name   = $this->input->POST('company_name');
+                    $type           = $this->input->POST('type');
+                    $start          = strtotime($_POST['start-year'] . '-' . $_POST['start-month'] . '-01');
+                    $until          = strtotime($_POST['until-year'] . '-' . $_POST['until-month'] . '-01');
+                    $is_resigned    = $this->input->POST('is_resigned');
+                    $description    = $this->input->POST('description');
+
+                    if ($is_resigned == 0) {
+                        $until = 0;
+                    }
+
+                    $data = [
+                        'job_title'     => $job_title,
+                        'company_name'  => $company_name,
+                        'type'          => $type,
+                        'start'         => $start,
+                        'until'         => $until,
+                        'is_resigned'   => $is_resigned,
+                        'description'   => $description
+                    ];
+
+                    $this->db->where('id', $id);
+                    $result = $this->db->update('about_experience', $data);
+
+                    if ($result) {
+                        $this->session->set_flashdata(
+                            'message',
+                            'Data berhasil diubah'
+                        );
+                        redirect('about');
+                    } else {
+                        $this->session->set_flashdata(
+                            'error',
+                            'Data gagal diubah'
+                        );
+                        redirect('about');
+                    }
+
+                } else {
+                    $this->session->set_flashdata(
+                        'error',
+                        'Data tidak ditemukan'
+                    );
+                    redirect('about');
+                }
+
+            }
+
+        }
+    }
+
+    public function deleteexperience($id)
+    {
+        if ($id == '') {
+            $this->session->set_flashdata(
+                'error',
+                'Data tidak ditemukan'
+            );
+            redirect('about');
+        } else {
+
+            $db = $this->db->get_where('about_experience', ['id' => $id])->row_array();
+
+            if (is_array($db) && !empty($db)) {
+                $this->db->where('id', $id);
+                $result = $this->db->delete('about_experience');
+
+                if ($result) {
+                    $this->session->set_flashdata(
+                        'message',
+                        'Data berhasil dihapus'
+                    );
+                    redirect('about');
+                } else {
+                    $this->session->set_flashdata(
+                        'error',
+                        'Data gagal dihapus'
+                    );
+                    redirect('about');
+                }
+            } else {
+                $this->session->set_flashdata(
+                    'error',
+                    'Data tidak ditemukan'
+                );
+                redirect('about');
             }
 
         }

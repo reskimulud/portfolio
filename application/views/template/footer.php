@@ -97,6 +97,9 @@ $('#has-sub-menu').on('click', function() {
     }
 });
 
+<?php if (isset($educations) || isset($experience)) : ?>
+<?php $array = ['education', 'experience'] ?>
+
 // is studied
 $('#is_studied').on('click', () => {
     if ($('#is_studied').is(':checked')) {
@@ -108,7 +111,6 @@ $('#is_studied').on('click', () => {
     }
 });
 
-<?php if (isset($educations)) : ?>
 
 <?php foreach ($educations as $education) : ?>
 $('#is_studied<?= $education['id']; ?>').on('click', () => {
@@ -118,6 +120,29 @@ $('#is_studied<?= $education['id']; ?>').on('click', () => {
     } else {
         $('#until-form<?= $education['id']; ?>').show();
         $('#is_graduated<?= $education['id']; ?>').val('1');
+    }
+});
+<?php endforeach; ?>
+
+//is worked
+$("#is_worked").on('click', () => {
+    if ($('#is_worked').is(':checked')) {
+        $('#until-form-exp').hide();
+        $('#is_resigned').val('0');
+    } else {
+        $('#until-form-exp').show();
+        $('#is_resigned').val('1');
+    }
+});
+
+<?php foreach ($experiences as $experience) : ?>
+$('#is_worked<?= $experience['id']; ?>').on('click', () => {
+    if ($('#is_worked<?= $experience['id']; ?>').is(':checked')) {
+        $('#until-form<?= $experience['id']; ?>').hide();
+        $('#is_resigned<?= $experience['id']; ?>').val('0');
+    } else {
+        $('#until-form<?= $experience['id']; ?>').show();
+        $('#is_resigned<?= $experience['id']; ?>').val('1');
     }
 });
 <?php endforeach; ?>

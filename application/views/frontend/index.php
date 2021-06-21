@@ -57,7 +57,7 @@ $count = 0;
         <div class="container">
             <div class="row justify-content-between">
                 <div class="logo">
-                    <a href="<?= base_url(); ?>">M</a>
+                    <a href="#portfolio">M</a>
                 </div>
                 <div class="hamburger-btn outer-shadow hover-in-shadow">
                     <span></span>
@@ -170,18 +170,22 @@ $count = 0;
                             class="outer-shadow"></div>
                     <!-- social links start -->
                     <div class="social-links">
-                        <a href="<?= $about['facebook']; ?>" class="outer-shadow hover-in-shadow"><i
+                        <a href="<?= $about['facebook']; ?>" target="_blank" class="outer-shadow hover-in-shadow"><i
                                 class="fab fa-fw fa-facebook-f"></i></a>
-                        <a href="<?= $about['twitter']; ?>" class="outer-shadow hover-in-shadow"><i
+                        <a href="<?= $about['twitter']; ?>" target="_blank" class="outer-shadow hover-in-shadow"><i
                                 class="fab fa-fw fa-twitter"></i></a>
-                        <a href="<?= $about['instagram']; ?>" class="outer-shadow hover-in-shadow"><i
+                        <a href="<?= $about['instagram']; ?>" target="_blank" class="outer-shadow hover-in-shadow"><i
                                 class="fab fa-fw fa-instagram"></i></a>
-                        <a href="<?= $about['linkedin']; ?>" class="outer-shadow hover-in-shadow"><i
+                        <a href="<?= $about['linkedin']; ?>" target="_blank" class="outer-shadow hover-in-shadow"><i
                                 class="fab fa-fw fa-linkedin-in"></i></a>
-                        <a href="<?= $about['github']; ?>" class="outer-shadow hover-in-shadow"><i
+                        <a href="<?= $about['github']; ?>" target="_blank" class="outer-shadow hover-in-shadow"><i
                                 class="fab fa-fw fa-github"></i></a>
-                        <a href="<?= $about['pinterest']; ?>" class="outer-shadow hover-in-shadow"><i
+                        <a href="<?= $about['pinterest']; ?>" target="_blank" class="outer-shadow hover-in-shadow"><i
                                 class="fab fa-fw fa-pinterest"></i></a>
+                        <a href="https://wa.me/62<?= $about['telp']; ?>" target="_blank"
+                            class="outer-shadow hover-in-shadow"><i class="fab fa-fw fa-whatsapp"></i></a>
+                        <a href="https://t.me/reski_mulud" target="_blank" class="outer-shadow hover-in-shadow"><i
+                                class="fab fa-fw fa-telegram"></i></a>
                     </div>
                     <!-- social links end -->
                 </div>
@@ -190,6 +194,7 @@ $count = 0;
 
                     <p><span>Email</span> : <a href="mailto:<?= $about['email']; ?>"><?= $about['email']; ?></a></p>
                     <p><span>Phone Number</span> : +62<?= $about['telp']; ?></p>
+                    <p><span>Work Experience</span> : </p>
 
                     <a href="cv.pdf" class="btn-1 outer-shadow hover-in-shadow">Download CV</a>
                     <a href="#contact" class="link-item btn-1 outer-shadow hover-in-shadow">Hire Me</a>
@@ -208,9 +213,17 @@ $count = 0;
             <!-- skills start -->
             <div class="row">
                 <div class="skills tab-content active">
+                    <?php foreach ($categories as $category) : ?>
+
+                    <div class="category-divider">
+                        <h1><?= $category['category_name']; ?></h1>
+                        <hr>
+                    </div>
+
                     <div class="row">
                         <!-- skill start -->
-                        <?php foreach ($skills as$skill) : ?>
+                        <?php foreach ($skills as $skill) : ?>
+                        <?php if ($skill['category_id'] == $category['id']) : ?>
                         <div class="skill-item">
                             <p><?= $skill['skill']; ?></p>
                             <div class="progress inner-shadow">
@@ -219,9 +232,11 @@ $count = 0;
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
                         <?php endforeach; ?>
                         <!-- skill end -->
                     </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
             <!-- skills endd -->
@@ -230,49 +245,29 @@ $count = 0;
             <div class="row">
                 <div class="experience tab-content">
                     <div class="row">
+                        <?php if (is_array($experiences) && !empty($experiences)) : ?>
                         <div class="timeline">
                             <div class="row">
                                 <!-- timelime item start -->
+                                <?php foreach ($experiences as $experience) : ?>
                                 <div class="timeline-item">
                                     <div class="timeline-item-inner outer-shadow">
                                         <i class="fas fa-briefcase icon"></i>
-                                        <span>Sep, 2018 - present</span>
-                                        <h3>fullstack developer</h3>
-                                        <h4>Company name, Indonesia</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus eaque qui
-                                            impedit consectetur,
-                                            similique accusantium consequatur ducimus cum quam corporis?</p>
+                                        <span><?= date('M, Y', $experience['start']); ?> -
+                                            <?= ($experience['is_resigned'] == 1) ? date('M, Y', $experience['until']) : 'present'; ?></span>
+                                        <h3><?= $experience['job_title']; ?></h3>
+                                        <h4><?= $experience['company_name']; ?></h4>
+                                        <span><?= $experience['type']; ?></span>
+                                        <?= $experience['description']; ?>
                                     </div>
                                 </div>
-                                <!-- timelime item end -->
-                                <!-- timelime item start -->
-                                <div class="timeline-item">
-                                    <div class="timeline-item-inner outer-shadow">
-                                        <i class="fas fa-briefcase icon"></i>
-                                        <span>Sep, 2018 - present</span>
-                                        <h3>fullstack developer</h3>
-                                        <h4>Company name, Indonesia</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus eaque qui
-                                            impedit consectetur,
-                                            similique accusantium consequatur ducimus cum quam corporis?</p>
-                                    </div>
-                                </div>
-                                <!-- timelime item end -->
-                                <!-- timelime item start -->
-                                <div class="timeline-item">
-                                    <div class="timeline-item-inner outer-shadow">
-                                        <i class="fas fa-briefcase icon"></i>
-                                        <span>Sep, 2018 - present</span>
-                                        <h3>fullstack developer</h3>
-                                        <h4>Company name, Indonesia</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus eaque qui
-                                            impedit consectetur,
-                                            similique accusantium consequatur ducimus cum quam corporis?</p>
-                                    </div>
-                                </div>
+                                <?php endforeach; ?>
                                 <!-- timelime item end -->
                             </div>
                         </div>
+                        <?php else : ?>
+                        <h1 class="data-not-yet">No Data Available!</h1>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -282,6 +277,7 @@ $count = 0;
             <div class="row">
                 <div class="education tab-content">
                     <div class="row">
+                        <?php if (is_array($educations) && !empty($educations)) : ?>
                         <div class="timeline">
                             <div class="row">
                                 <!-- timelime item start -->
@@ -293,13 +289,16 @@ $count = 0;
                                             <?= ($education['is_graduated'] == 1) ? date('M, Y', $education['until']) : 'present'; ?></span>
                                         <h3><?= $education['degree']; ?></h3>
                                         <h4><?= $education['school']; ?></h4>
-                                        <p><?= $education['description']; ?></p>
+                                        <?= $education['description']; ?>
                                     </div>
                                 </div>
                                 <?php endforeach; ?>
                                 <!-- timelime item end -->
                             </div>
                         </div>
+                        <?php else : ?>
+                        <h1 class="data-not-yet">Mo Data Available!</h1>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

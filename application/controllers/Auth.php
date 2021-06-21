@@ -10,27 +10,34 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->library('form_validation');
     }
-    public function index($products = NULL)
+    public function index()
     {
-        if ($this->session->userdata('email')) {
-            redirect('user');
-        }
+        if ($this->session->userdata('access') && $this->session->userdata('access') === "granted") {
 
-        // rules
-        $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required');
-
-        if ($this->form_validation->run() == false) {
-
-            $data['title'] = 'User Login';
-            $this->load->view('auth/template/auth_header', $data);
-            $this->load->view('auth/login');
-            $this->load->view('auth/template/auth_footer');
+            if ($this->session->userdata('email')) {
+                redirect('user');
+            }
+    
+            // rules
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required');
+    
+            if ($this->form_validation->run() == false) {
+    
+                $data['title'] = 'User Login';
+                $this->load->view('auth/template/auth_header', $data);
+                $this->load->view('auth/login');
+                $this->load->view('auth/template/auth_footer');
+            } else {
+                // jika validasi success
+                $this->_login();
+                
+            }
+            
         } else {
-            // jika validasi success
-            $this->_login();
-
+            $this->load->view('auth/distract');
         }
+
     }
 
     private function _login() 
@@ -131,7 +138,7 @@ class Auth extends CI_Controller
     {
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role_id');
-
+        $this->session->unset_userdata('access');
 
         $this->session->set_flashdata(
             'message',
