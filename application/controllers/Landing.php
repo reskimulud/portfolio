@@ -18,6 +18,8 @@ class Landing extends CI_Controller
         $this->db->order_by('start', 'DESC');
         $data['experiences'] = $this->db->get('about_experience')->result_array();
 
+        $data['services']   = $this->db->get('services')->result_array();
+
         $this->load->view('frontend/index', $data);
     }
 }

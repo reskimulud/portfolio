@@ -317,72 +317,21 @@ $count = 0;
                 </div>
             </div>
             <div class="row">
+
+                <?php foreach ($services as $service) : ?>
                 <!-- service item start -->
                 <div class="service-item">
                     <div class="service-item-inner outer-shadow">
                         <div class="icon inner-shadow">
-                            <i class="fas fa-mobile-alt"></i>
+                            <i class="<?= $service['icon']; ?>"></i>
                         </div>
-                        <h3>Responsive Design</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, eligendi.</p>
+                        <h3><?= $service['name']; ?></h3>
+                        <p><?= $service['description']; ?></p>
                     </div>
                 </div>
                 <!-- service item end -->
-                <!-- service item start -->
-                <div class="service-item">
-                    <div class="service-item-inner outer-shadow">
-                        <div class="icon inner-shadow">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3>Responsive Design</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, eligendi.</p>
-                    </div>
-                </div>
-                <!-- service item end -->
-                <!-- service item start -->
-                <div class="service-item">
-                    <div class="service-item-inner outer-shadow">
-                        <div class="icon inner-shadow">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3>Responsive Design</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, eligendi.</p>
-                    </div>
-                </div>
-                <!-- service item end -->
-                <!-- service item start -->
-                <div class="service-item">
-                    <div class="service-item-inner outer-shadow">
-                        <div class="icon inner-shadow">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3>Responsive Design</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, eligendi.</p>
-                    </div>
-                </div>
-                <!-- service item end -->
-                <!-- service item start -->
-                <div class="service-item">
-                    <div class="service-item-inner outer-shadow">
-                        <div class="icon inner-shadow">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3>Responsive Design</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, eligendi.</p>
-                    </div>
-                </div>
-                <!-- service item end -->
-                <!-- service item start -->
-                <div class="service-item">
-                    <div class="service-item-inner outer-shadow">
-                        <div class="icon inner-shadow">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h3>Responsive Design</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, eligendi.</p>
-                    </div>
-                </div>
-                <!-- service item end -->
+                <?php endforeach; ?>
+
             </div>
         </div>
     </section>
