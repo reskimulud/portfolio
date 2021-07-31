@@ -371,8 +371,9 @@ HEADER
 =======*/
 
 .header {
-    padding: 20px 15px;
-    position: absolute;
+    padding: 15px;
+    position: fixed;
+    background-color: var(--bg-black-50);
     width: 100%;
     top: 0;
     left: 0;
@@ -383,14 +384,19 @@ HEADER
     display: inline-block;
     text-align: center;
     line-height: 36px;
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
     font-size: 24px;
     color: var(--skin-color);
     border-radius: 50%;
     border: 2px solid var(--skin-color);
     font-weight: 600;
     text-transform: uppercase;
+}
+
+.header .logo a img {
+    position: relative;
+    top: -0.5px;
 }
 
 .header .hamburger-btn {
@@ -664,6 +670,7 @@ ABOUT SECTION
     text-align: center;
     border-radius: 50%;
     color: var(--text-black-700);
+    margin: 3px;
 }
 
 .about-section .about-img .social-links a:hover {
