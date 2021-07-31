@@ -16,6 +16,20 @@ $count = 0;
     <meta name="description" content="<?= $webInfo['description']; ?>" />
     <meta name="keywords" content="<?= $webInfo['keyword']; ?>" />
 
+    <!-- SEO -->
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="<?= $webInfo['name']; ?>" />
+    <meta property="og:description" content="<?= $webInfo['description']; ?>" />
+    <meta property="og:url" content="<?= base_url(); ?>" />
+    <meta property="og:site_name" content="<?= $webInfo['name']; ?>" />
+    <meta property="og:image"
+        content="https://github.com/reski-mulud-muchamad/reski-mulud-muchamad/raw/main/imgimg.png" />
+    <meta property="og:image:width" content="1104" />
+    <meta property="og:image:height" content="552" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@reski_mulud" />
+    <meta name="twitter:site" content="@reski_mulud" />
+
     <link rel="shortcut icon" href="<?= base_url('favicon.ico'); ?>" type="image/x-icon">
     <!-- font awesome -->
     <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>css/font-awesome.css">
